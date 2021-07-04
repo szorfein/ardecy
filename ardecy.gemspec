@@ -26,8 +26,6 @@ Gem::Specification.new do |s|
   s.executables << "ardecy"
   s.extra_rdoc_files = ['README.md']
   s.required_ruby_version = ">=2.6"
-  s.requirements << 'TODO change: libmagick, v6.0'
-  s.requirements << 'TODO change: A good graphics card'
   s.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $0 =~ /gem\z/
 end
 

@@ -1,4 +1,10 @@
 #!/usr/bin/env ruby
+
 require "ardecy"
-puts "Ardecy v." + Ardecy::VERSION
+
+ardecy = Ardecy::Main.new(ARGV)
+
+ardecy.scan
+
+ardecy.bye
 
