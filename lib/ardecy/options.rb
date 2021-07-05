@@ -15,7 +15,17 @@ module Ardecy
           @options[:audit] = true
         end
 
+        opts.on("--fix", "Fix problems.") do
+          @options[:fix] = true
+        end
+
+        opts.on("-h", "--help", "Show this message.") do
+          puts opts
+          exit
+        end
+
         begin
+          args.push('-h') if args.empty?
           opts.parse!(args)
         rescue OptionParser::ParseError => e
           STDERR.puts e.message, '\n', opts

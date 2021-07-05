@@ -1,15 +1,15 @@
+require 'display'
+
 module Ardecy
   module Harden
     module Sysctl
       KERNEL = []
 
-      def self.show(file, exp)
-        print "  - #{file} (exp: #{exp})"
-      end
-
       class SysKern
+        include Display
+
         def scan
-          Sysctl.show(@file, @exp)
+          kernel_show(@line, @exp) if @audit
           if File.exist? @file
             if File.readable? @file
               value = File.read(@file).chomp 
@@ -21,14 +21,14 @@ module Ardecy
             @res = 'NO FOUND'
           end
           if @notab
-            puts " [ #{@res} ]"
+            kernel_res(@res, 1) if @audit
           else
-            puts "\t\t[ #{@res} ]"
+            kernel_res(@res) if @audit
           end
         end
 
         def fix
-          if @res != 'OK'
+          if @res != 'OK' && @res != 'PROTECTED'
             KERNEL << "#{@line} = #{@exp}"
           end
         end
@@ -40,57 +40,62 @@ module Ardecy
       end
 
       class KPointer < SysKern
-        def initialize
+        def initialize(args)
           @file = '/proc/sys/kernel/kptr_restrict'
           @exp = '2'
           @res = 'FALSE'
           @line = 'kernel.kptr_restrict'
+          @audit = args[:audit] ||= false
         end
       end
 
       class Dmesg < SysKern
-        def initialize
+        def initialize(args)
           @file = '/proc/sys/kernel/dmesg_restrict'
           @exp = '1'
           @res = 'FALSE'
           @line = 'kernel.dmesg_restrict'
+          @audit = args[:audit] ||= false
         end
       end
 
       class Printk < SysKern
-        def initialize
+        def initialize(args)
           @file = '/proc/sys/kernel/printk'
           @exp = '3 3 3 3'
           @res = 'FALSE'
           @line = 'kernel.printk'
+          @audit = args[:audit] ||= false
         end
 
         def scan
-          Sysctl.show(@file, @exp)
+          kernel_show(@line, @exp) if @audit
           value = File.read(@file).chomp
           if value =~ /3\s+3\s+3\s+3/
             @res = 'OK'
           end
-          puts "\t\t[ #{@res} ]"
+          kernel_res(@res) if @audit
         end
       end
 
       class BpfDisabled < SysKern
-        def initialize
+        def initialize(args)
           @file = '/proc/sys/kernel/unprivileged_bpf_disabled'
           @exp = '1'
           @res = 'FALSE'
           @line = 'kernel.unprivileged_bpf_disabled'
           @notab = true
+          @audit = args[:audit] ||= false
         end
       end
 
       class BpfJitHarden < SysKern
-        def initialize
+        def initialize(args)
           @file = '/proc/sys/net/core/bpf_jit_harden'
           @exp = '2'
           @res = 'FALSE'
           @line = 'net.core.bpf_jit_harden'
+          @audit = args[:audit] ||= false
         end
       end
     end

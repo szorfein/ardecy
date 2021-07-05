@@ -1,4 +1,5 @@
 # Ardecy
+Ardecy is a security, privacy auditing, fixing and hardening tool for Linux.
 
 ## Install ardecy locally
 
