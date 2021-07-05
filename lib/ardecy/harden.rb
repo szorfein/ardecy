@@ -8,11 +8,18 @@ module Ardecy
     def self.sysctl(args)
       title "Kernel Hardening"
 
-      Sysctl::KPointer.new(args).x
-      Sysctl::Dmesg.new(args).x
-      Sysctl::Printk.new(args).x
-      Sysctl::BpfDisabled.new(args).x
-      Sysctl::BpfJitHarden.new(args).x
+      Sysctl::Kernel::KPointer.new(args).x
+      Sysctl::Kernel::Dmesg.new(args).x
+      Sysctl::Kernel::Printk.new(args).x
+      Sysctl::Kernel::BpfDisabled.new(args).x
+      Sysctl::Kernel::BpfJitHarden.new(args).x
+      Sysctl::Kernel::LdiskAutoload.new(args).x
+      Sysctl::Kernel::UserFaultFd.new(args).x
+      Sysctl::Kernel::KExecLoadDisabled.new(args).x
+      Sysctl::Kernel::SysRQ.new(args).x
+      Sysctl::Kernel::UsernsClone.new(args).x
+      Sysctl::Kernel::MaxUserNameSpace.new(args).x
+      Sysctl::Kernel::PerfEventParanoid.new(args).x
 
       if args[:fix]
         conf = '/etc/sysctl.d/ardecy_kernel.conf'
