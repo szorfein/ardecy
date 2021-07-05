@@ -135,11 +135,110 @@ module Ardecy
         class IcmpEchoIgnoreAll < Sysctl::SysNet
            def initialize(args)
              @file = '/proc/sys/net/ipv4/icmp_echo_ignore_all'
-             @exp = '0'
+             @exp = '1'
              @res = 'FALSE'
              @line = 'net.ipv4.icmp_echo_ignore_all'
              @args = args
              @tab = 2
+           end
+        end
+
+        class AllAcceptSourceRoute < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv4/conf/all/accept_source_route'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv4.conf.all.accept_source_route'
+             @args = args
+             @tab = 1
+           end
+        end
+
+        class DefaultAcceptSourceRoute < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv4/conf/default/accept_source_route'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv4.conf.default.accept_source_route'
+             @args = args
+             @tab = 1
+           end
+        end
+
+        class Ipv6AllAcceptSourceRoute < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv6/conf/all/accept_source_route'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv6.conf.all.accept_source_route'
+             @args = args
+             @tab = 1
+           end
+        end
+
+        class Ipv6DefaultAcceptSourceRoute < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv6/conf/default/accept_source_route'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv6.conf.default.accept_source_route'
+             @args = args
+             @tab = 1
+           end
+        end
+
+        class Ipv6ConfAllAcceptRa < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv6/conf/all/accept_ra'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv6.conf.all.accept_ra'
+             @args = args
+             @tab = 2
+           end
+        end
+
+        class Ipv6ConfDefaultAcceptRa < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv6/conf/default/accept_ra'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv6.conf.default.accept_ra'
+             @args = args
+             @tab = 2
+           end
+        end
+
+        class TcpSack < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv4/tcp_sack'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv4.tcp_sack'
+             @args = args
+             @tab = 4
+           end
+        end
+
+        class TcpDSack < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv4/tcp_dsack'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv4.tcp_dsack'
+             @args = args
+             @tab = 4
+           end
+        end
+
+        class TcpFack < Sysctl::SysNet
+           def initialize(args)
+             @file = '/proc/sys/net/ipv4/tcp_fack'
+             @exp = '0'
+             @res = 'FALSE'
+             @line = 'net.ipv4.tcp_fack'
+             @args = args
+             @tab = 4
            end
         end
       end

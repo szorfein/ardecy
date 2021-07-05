@@ -133,6 +133,78 @@ module Ardecy
             @args = args
           end
         end
+
+        class YamaPtrace < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/kernel/yama/ptrace_scope'
+            @exp = '2'
+            @res = 'FALSE'
+            @line = 'kernel.yama.ptrace_scope'
+            @args = args
+          end
+        end
+
+        class VmMmapRndBits < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/vm/mmap_rnd_bits'
+            @exp = '32'
+            @res = 'FALSE'
+            @line = 'vm.mmap_rnd_bits'
+            @args = args
+            @tab = 4
+          end
+        end
+
+        class VmMmapRndCompatBits < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/vm/mmap_rnd_compat_bits'
+            @exp = '16'
+            @res = 'FALSE'
+            @line = 'vm.mmap_rnd_compat_bits'
+            @args = args
+          end
+        end
+
+        class FsProtectedSymlinks < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/fs/protected_symlinks'
+            @exp = '1'
+            @res = 'FALSE'
+            @line = 'fs.protected_symlinks'
+            @args = args
+          end
+        end
+
+        class FsProtectedHardlinks < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/fs/protected_hardlinks'
+            @exp = '1'
+            @res = 'FALSE'
+            @line = 'fs.protected_hardlinks'
+            @args = args
+          end
+        end
+
+        class FsProtectedFifos < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/fs/protected_fifos'
+            @exp = '2'
+            @res = 'FALSE'
+            @line = 'fs.protected_fifos'
+            @args = args
+            @tab = 4
+          end
+        end
+
+        class FsProtectedRegular < Sysctl::SysKern
+          def initialize(args)
+            @file = '/proc/sys/fs/protected_regular'
+            @exp = '2'
+            @res = 'FALSE'
+            @line = 'fs.protected_regular'
+            @args = args
+          end
+        end
       end
     end
   end

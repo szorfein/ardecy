@@ -26,6 +26,13 @@ module Ardecy
       Sysctl::Kernel::UsernsClone.new(args).x
       Sysctl::Kernel::MaxUserNameSpace.new(args).x
       Sysctl::Kernel::PerfEventParanoid.new(args).x
+      Sysctl::Kernel::YamaPtrace.new(args).x
+      Sysctl::Kernel::VmMmapRndBits.new(args).x
+      Sysctl::Kernel::VmMmapRndCompatBits.new(args).x
+      Sysctl::Kernel::FsProtectedSymlinks.new(args).x
+      Sysctl::Kernel::FsProtectedHardlinks.new(args).x
+      Sysctl::Kernel::FsProtectedFifos.new(args).x
+      Sysctl::Kernel::FsProtectedRegular.new(args).x
 
       if args[:fix]
         conf = '/etc/sysctl.d/ardecy_kernel.conf'
@@ -58,6 +65,15 @@ module Ardecy
       Sysctl::Network::AllSendRedirects.new(args).x
       Sysctl::Network::DefaultSendRedirects.new(args).x
       Sysctl::Network::IcmpEchoIgnoreAll.new(args).x
+      Sysctl::Network::AllAcceptSourceRoute.new(args).x
+      Sysctl::Network::DefaultAcceptSourceRoute.new(args).x
+      Sysctl::Network::Ipv6AllAcceptSourceRoute.new(args).x
+      Sysctl::Network::Ipv6DefaultAcceptSourceRoute.new(args).x
+      Sysctl::Network::Ipv6ConfAllAcceptRa.new(args).x
+      Sysctl::Network::Ipv6ConfDefaultAcceptRa.new(args).x
+      Sysctl::Network::TcpSack.new(args).x
+      Sysctl::Network::TcpDSack.new(args).x
+      Sysctl::Network::TcpFack.new(args).x
 
       if args[:fix]
         conf = '/etc/sysctl.d/ardecy_network.conf'
