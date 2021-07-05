@@ -9,7 +9,7 @@ module Ardecy
         include Display
 
         def scan
-          kernel_show(@line, @exp) if @audit
+          kernel_show(@line, @exp) if @args[:audit]
           if File.exist? @file
             if File.readable? @file
               value = File.read(@file).chomp 
@@ -21,21 +21,34 @@ module Ardecy
             @res = 'NO FOUND'
           end
           if @notab
-            kernel_res(@res, 1) if @audit
+            kernel_res(@res, 1) if @args[:audit]
           else
-            kernel_res(@res) if @audit
+            kernel_res(@res) if @args[:audit]
           end
         end
 
         def fix
+          #if @res != 'OK' && @res != 'PROTECTED'
+            if File.exist? @file
+              KERNEL << "#{@line} = #{@exp}"
+            end
+          #end
+        end
+
+        def repair
+          return unless @args[:fix]
+          Ardecy::Guard.perm
           if @res != 'OK' && @res != 'PROTECTED'
-            KERNEL << "#{@line} = #{@exp}"
+            if File.exist? @file
+              File.write(@file, @exp, mode: 'w', preserve: true)
+            end
           end
         end
 
         def x
           scan
           fix
+          repair
         end
       end
 
@@ -45,7 +58,7 @@ module Ardecy
           @exp = '2'
           @res = 'FALSE'
           @line = 'kernel.kptr_restrict'
-          @audit = args[:audit] ||= false
+          @args = args
         end
       end
 
@@ -55,7 +68,7 @@ module Ardecy
           @exp = '1'
           @res = 'FALSE'
           @line = 'kernel.dmesg_restrict'
-          @audit = args[:audit] ||= false
+          @args = args
         end
       end
 
@@ -65,16 +78,16 @@ module Ardecy
           @exp = '3 3 3 3'
           @res = 'FALSE'
           @line = 'kernel.printk'
-          @audit = args[:audit] ||= false
+          @args = args
         end
 
         def scan
-          kernel_show(@line, @exp) if @audit
+          kernel_show(@line, @exp) if @args[:audit]
           value = File.read(@file).chomp
           if value =~ /3\s+3\s+3\s+3/
             @res = 'OK'
           end
-          kernel_res(@res) if @audit
+          kernel_res(@res) if @args[:audit]
         end
       end
 
@@ -85,7 +98,7 @@ module Ardecy
           @res = 'FALSE'
           @line = 'kernel.unprivileged_bpf_disabled'
           @notab = true
-          @audit = args[:audit] ||= false
+          @args = args
         end
       end
 
@@ -95,7 +108,7 @@ module Ardecy
           @exp = '2'
           @res = 'FALSE'
           @line = 'net.core.bpf_jit_harden'
-          @audit = args[:audit] ||= false
+          @args = args
         end
       end
     end
