@@ -1,5 +1,3 @@
-require 'display'
-
 module Ardecy
   module Harden
     module Sysctl
@@ -49,7 +47,7 @@ module Ardecy
             @exp = '1'
             @res = 'FALSE'
             @line = 'kernel.unprivileged_bpf_disabled'
-            @tab = 1
+            @tab = 2
             @args = args
           end
         end
@@ -81,7 +79,7 @@ module Ardecy
             @res = 'FALSE'
             @line = 'vm.unprivileged_userfaultfd'
             @args = args
-            @tab = 1
+            @tab = 2
           end
         end
 
@@ -102,7 +100,7 @@ module Ardecy
             @res = 'FALSE'
             @line = 'kernel.sysrq'
             @args = args
-            @tab = 3
+            @tab = 4
           end
         end
 

@@ -65,3 +65,4 @@ module Ardecy
 end
 
 require_relative 'sysctl/kernel'
+require_relative 'sysctl/network'

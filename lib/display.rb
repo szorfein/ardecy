@@ -10,7 +10,7 @@ module Display
     print "  - #{line} (exp: #{exp})"
   end
 
-  def kernel_res(res, ntab = 2)
+  def kernel_res(res, ntab = 3)
     puts "\t" * ntab + "[ #{@res} ]"
   end
 
