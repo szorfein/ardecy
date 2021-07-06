@@ -2,8 +2,10 @@
 
 <div align="center">
 <br/>
-[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
+
 [![Gem Version](https://badge.fury.io/rb/ardecy.svg)](https://badge.fury.io/rb/ardecy)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
+
 </div>
 
 Ardecy is a security, privacy auditing, fixing and hardening tool for Linux.
@@ -13,7 +15,7 @@ Ardecy is a security, privacy auditing, fixing and hardening tool for Linux.
 With gem:
 
     gem cert --add <(curl -Ls https://raw.githubusercontent.com/szorfein/ardecy/master/certs/szorfein.pem)
-    gem install ardecy-0.0.1.gem -P HighSecurity
+    gem install ardecy -P HighSecurity
     ardecy -h
 
 With github:

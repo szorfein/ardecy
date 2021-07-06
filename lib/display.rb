@@ -12,11 +12,15 @@ module Display
     print "  - #{line} (exp: #{exp})"
   end
 
-  def kernel_res(res, ntab = 3)
+  def result(res, ntab = 3)
     puts "\t" * ntab + "[ #{res} ]"
   end
 
-  def kernel_correct_show(list)
-    list.each { |l| puts "  - #{l}" }
+  def display_fix_list(list)
+    list.each { |l| puts "  - #{l}" } if list.length >= 2
+  end
+
+  def show_bad_mod(name)
+    print "  - Checking if #{name} is not available"
   end
 end

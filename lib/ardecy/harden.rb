@@ -2,6 +2,7 @@
 
 require 'display'
 require_relative 'harden/sysctl'
+require_relative 'harden/modules'
 
 module Ardecy
   module Harden
@@ -11,6 +12,52 @@ module Ardecy
       sysctl_kernel(args)
       puts
       sysctl_network(args)
+    end
+
+    def self.modules(args)
+      puts
+      title 'Kernel Modules'
+
+      Modules::Blacklist::Dccp.new(args).x
+      Modules::Blacklist::Sctp.new(args).x
+      Modules::Blacklist::Rds.new(args).x
+      Modules::Blacklist::Tipc.new(args).x
+      Modules::Blacklist::NHdlc.new(args).x
+      Modules::Blacklist::Ax25.new(args).x
+      Modules::Blacklist::Netrom.new(args).x
+      Modules::Blacklist::X25.new(args).x
+      Modules::Blacklist::Rose.new(args).x
+      Modules::Blacklist::Decnet.new(args).x
+      Modules::Blacklist::Econet.new(args).x
+      Modules::Blacklist::Af802154.new(args).x
+      Modules::Blacklist::Ipx.new(args).x
+      Modules::Blacklist::Appletalk.new(args).x
+      Modules::Blacklist::Psnap.new(args).x
+      Modules::Blacklist::P8023.new(args).x
+      Modules::Blacklist::P8022.new(args).x
+      Modules::Blacklist::Can.new(args).x
+      Modules::Blacklist::Atm.new(args).x
+      return unless args[:fix]
+
+      if Dir.exist? '/etc/modprobe.d/'
+        conf = '/etc/modprobe.d/ardecy_blacklist.conf'
+        writing(conf, Modules::BLACKLIST, args[:audit])
+      else
+        puts "[-] Directory /etc/modprobe.d/ no found..."
+      end
+    end
+
+    def self.writing(file, list, audit = false)
+      return unless list.length >= 2
+
+      puts if audit
+      puts " ===> Applying at #{file}..."
+      display_fix_list list
+
+      list << "\n"
+      list_f = list.freeze
+
+      File.write(file, list_f.join("\n"), mode: 'w', chmod: 644)
     end
 
     def self.sysctl_kernel(args)
@@ -38,14 +85,9 @@ module Ardecy
 
       return unless args[:fix]
 
-      conf = '/etc/sysctl.d/ardecy_kernel.conf'
-      puts if args[:audit]
-      puts " ===> Applying at #{conf}..."
-      puts
-      kernel_correct_show Sysctl::KERNEL
-      Sysctl::KERNEL << "\n"
       if Dir.exist? '/etc/sysctl.d/'
-        File.write(conf, Sysctl::KERNEL.join("\n"), mode: 'w', chmod: 0644)
+        conf = '/etc/sysctl.d/ardecy_kernel.conf'
+        writing(conf, Sysctl::KERNEL, args[:audit])
       else
         puts '[-] Directory /etc/sysctl.d/ no found.'
       end
@@ -79,14 +121,9 @@ module Ardecy
 
       return unless args[:fix]
 
-      conf = '/etc/sysctl.d/ardecy_network.conf'
-      puts if args[:audit]
-      puts " ===> Applying at #{conf}..."
-      puts
-      kernel_correct_show Sysctl::NETWORK
-      Sysctl::NETWORK << "\n"
       if Dir.exist? '/etc/sysctl.d/'
-        File.write(conf, Sysctl::NETWORK.join("\n"), mode: 'w', chmod: 0644)
+        conf = '/etc/sysctl.d/ardecy_network.conf'
+        writing(conf, Sysctl::NETWORK, args[:audit])
       else
         puts '[-] Directory /etc/sysctl.d/ no found.'
       end

@@ -37,7 +37,7 @@ module Ardecy
             kernel_show(@line, @exp) if @args[:audit]
             value = File.read(@file).chomp
             @res = 'OK' if value =~ /3\s+3\s+3\s+3/
-            kernel_res(@res) if @args[:audit]
+            result(@res) if @args[:audit]
           end
         end
 

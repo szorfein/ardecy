@@ -23,11 +23,7 @@ module Ardecy
           else
             @res = 'NO FOUND'
           end
-          if @tab
-            kernel_res(@res, @tab) if @args[:audit]
-          elsif @args[:audit]
-            kernel_res(@res)
-          end
+          @tab ? result(@res, @tab) : result(@res) if @args[:audit]
         end
 
         def fix
