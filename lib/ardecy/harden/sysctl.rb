@@ -11,6 +11,12 @@ module Ardecy
       class SysKern
         include Display
 
+        def initialize(args)
+          @res = 'FALSE'
+          @args = args
+          @exp = '0'
+        end
+
         def scan
           kernel_show(@line, @exp) if @args[:audit]
           if File.exist? @file

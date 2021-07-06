@@ -4,33 +4,53 @@ module Ardecy
   module Harden
     module Sysctl
       module Kernel
+        def self.exec(args)
+          Kernel::KPointer.new(args).x
+          Kernel::Dmesg.new(args).x
+          Kernel::Printk.new(args).x
+          Kernel::BpfDisabled.new(args).x
+          Kernel::BpfJitHarden.new(args).x
+          Kernel::LdiskAutoload.new(args).x
+          Kernel::UserFaultFd.new(args).x
+          Kernel::KExecLoadDisabled.new(args).x
+          Kernel::SysRQ.new(args).x
+          Kernel::UsernsClone.new(args).x
+          Kernel::MaxUserNameSpace.new(args).x
+          Kernel::PerfEventParanoid.new(args).x
+          Kernel::YamaPtrace.new(args).x
+          Kernel::VmMmapRndBits.new(args).x
+          Kernel::VmMmapRndCompatBits.new(args).x
+          Kernel::FsProtectedSymlinks.new(args).x
+          Kernel::FsProtectedHardlinks.new(args).x
+          Kernel::FsProtectedFifos.new(args).x
+          Kernel::FsProtectedRegular.new(args).x
+        end
+
         class KPointer < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/kptr_restrict'
-            @exp = '2'
-            @res = 'FALSE'
             @line = 'kernel.kptr_restrict'
-            @args = args
+            super
+            @exp = '2'
           end
         end
 
         class Dmesg < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/dmesg_restrict'
-            @exp = '1'
-            @res = 'FALSE'
             @line = 'kernel.dmesg_restrict'
-            @args = args
+            super
+            @exp = '1'
           end
         end
 
         class Printk < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/printk'
-            @exp = '3 3 3 3'
-            @res = 'FALSE'
             @line = 'kernel.printk'
-            @args = args
+            @tab = 6
+            super
+            @exp = '3 3 3 3'
           end
 
           def scan
@@ -44,165 +64,144 @@ module Ardecy
         class BpfDisabled < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/unprivileged_bpf_disabled'
-            @exp = '1'
-            @res = 'FALSE'
             @line = 'kernel.unprivileged_bpf_disabled'
             @tab = 2
-            @args = args
+            super
+            @exp = '1'
           end
         end
 
         class BpfJitHarden < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/net/core/bpf_jit_harden'
-            @exp = '2'
-            @res = 'FALSE'
             @line = 'net.core.bpf_jit_harden'
-            @args = args
+            super
+            @exp = '2'
           end
         end
 
         class LdiskAutoload < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/dev/tty/ldisc_autoload'
-            @exp = '0'
-            @res = 'FALSE'
             @line = 'dev.tty.ldisc_autoload'
-            @args = args
+            super
           end
         end
 
         class UserFaultFd < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/vm/unprivileged_userfaultfd'
-            @exp = '0'
-            @res = 'FALSE'
             @line = 'vm.unprivileged_userfaultfd'
-            @args = args
             @tab = 2
+            super
           end
         end
 
         class KExecLoadDisabled < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/kexec_load_disabled'
-            @exp = '1'
-            @res = 'FALSE'
             @line = 'kernel.kexec_load_disabled'
-            @args = args
+            super
+            @exp = '1'
           end
         end
 
         class SysRQ < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/sysrq'
-            @exp = '0'
-            @res = 'FALSE'
             @line = 'kernel.sysrq'
-            @args = args
             @tab = 4
+            super
           end
         end
 
         class UsernsClone < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/unprivileged_userns_clone'
-            @exp = '0'
-            @res = 'FALSE'
             @line = 'unprivileged_userns_clone'
-            @args = args
+            super
           end
         end
 
         class MaxUserNameSpace < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/user/max_user_namespaces'
-            @exp = '0'
-            @res = 'FALSE'
             @line = 'user.max_user_namespaces'
-            @args = args
+            super
           end
         end
 
         class PerfEventParanoid < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/perf_event_paranoid'
-            @exp = '3'
-            @res = 'FALSE'
             @line = 'kernel.perf_event_paranoid'
-            @args = args
+            super
+            @exp = '3'
           end
         end
 
         class YamaPtrace < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/kernel/yama/ptrace_scope'
-            @exp = '2'
-            @res = 'FALSE'
             @line = 'kernel.yama.ptrace_scope'
-            @args = args
+            super
+            @exp = '2'
           end
         end
 
         class VmMmapRndBits < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/vm/mmap_rnd_bits'
-            @exp = '32'
-            @res = 'FALSE'
             @line = 'vm.mmap_rnd_bits'
-            @args = args
             @tab = 4
+            super
+            @exp = '32'
           end
         end
 
         class VmMmapRndCompatBits < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/vm/mmap_rnd_compat_bits'
-            @exp = '16'
-            @res = 'FALSE'
             @line = 'vm.mmap_rnd_compat_bits'
-            @args = args
+            super
+            @exp = '16'
           end
         end
 
         class FsProtectedSymlinks < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/fs/protected_symlinks'
-            @exp = '1'
-            @res = 'FALSE'
             @line = 'fs.protected_symlinks'
-            @args = args
+            super
+            @exp = '1'
           end
         end
 
         class FsProtectedHardlinks < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/fs/protected_hardlinks'
-            @exp = '1'
-            @res = 'FALSE'
             @line = 'fs.protected_hardlinks'
-            @args = args
+            super
+            @exp = '1'
           end
         end
 
         class FsProtectedFifos < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/fs/protected_fifos'
-            @exp = '2'
-            @res = 'FALSE'
             @line = 'fs.protected_fifos'
-            @args = args
             @tab = 4
+            super
+            @exp = '2'
           end
         end
 
         class FsProtectedRegular < Sysctl::SysKern
           def initialize(args)
             @file = '/proc/sys/fs/protected_regular'
-            @exp = '2'
-            @res = 'FALSE'
             @line = 'fs.protected_regular'
-            @args = args
+            super
+            @exp = '2'
           end
         end
       end

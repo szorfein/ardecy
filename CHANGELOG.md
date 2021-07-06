@@ -1,3 +1,5 @@
+* Audit/Fix dangerous kernel modules
+
 ## 0.0.2, release 07/06/21
 * Audit/Fix for the TCP/IP stack Hardening
 * Audit/Fix for sysctl system Hardening

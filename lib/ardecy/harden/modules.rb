@@ -47,6 +47,40 @@ module Ardecy
       end
 
       module Blacklist
+        def self.exec(args)
+          Blacklist::Dccp.new(args).x
+          Blacklist::Sctp.new(args).x
+          Blacklist::Rds.new(args).x
+          Blacklist::Tipc.new(args).x
+          Blacklist::NHdlc.new(args).x
+          Blacklist::Ax25.new(args).x
+          Blacklist::Netrom.new(args).x
+          Blacklist::X25.new(args).x
+          Blacklist::Rose.new(args).x
+          Blacklist::Decnet.new(args).x
+          Blacklist::Econet.new(args).x
+          Blacklist::Af802154.new(args).x
+          Blacklist::Ipx.new(args).x
+          Blacklist::Appletalk.new(args).x
+          Blacklist::Psnap.new(args).x
+          Blacklist::P8023.new(args).x
+          Blacklist::P8022.new(args).x
+          Blacklist::Can.new(args).x
+          Blacklist::Atm.new(args).x
+
+          # Filesystem
+          Blacklist::CramFs.new(args).x
+          Blacklist::FreevxFs.new(args).x
+          Blacklist::Jffs2.new(args).x
+          Blacklist::HFs.new(args).x
+          Blacklist::HFsplus.new(args).x
+          Blacklist::SquashFs.new(args).x
+          Blacklist::Udf.new(args).x
+
+          Blacklist::Vivid.new(args).x
+          Blacklist::UvcVideo.new(args).x
+        end
+
         class Dccp < Modules::Drop
           def initialize(args)
             @name = 'dccp'
@@ -178,6 +212,74 @@ module Ardecy
         class Atm < Modules::Drop
           def initialize(args)
             @name = 'atm'
+            super
+          end
+        end
+
+        class CramFs < Modules::Drop
+          def initialize(args)
+            @name = 'cramfs'
+            super
+          end
+        end
+
+        class FreevxFs < Modules::Drop
+          def initialize(args)
+            @name = 'freevxfs'
+            @tab = 2
+            super
+          end
+        end
+
+        class Jffs2 < Modules::Drop
+          def initialize(args)
+            @name = 'jffs2'
+            super
+          end
+        end
+
+        class HFs < Modules::Drop
+          def initialize(args)
+            @name = 'hfs'
+            super
+          end
+        end
+
+        class HFsplus < Modules::Drop
+          def initialize(args)
+            @name = 'hfsplus'
+            @tab = 2
+            super
+          end
+        end
+
+        class SquashFs < Modules::Drop
+          def initialize(args)
+            @name = 'spuashfs'
+            @tab = 2
+            super
+          end
+        end
+
+        class Udf < Modules::Drop
+          def initialize(args)
+            @name = 'udf'
+            super
+          end
+        end
+
+        class Vivid < Modules::Drop
+          def initialize(args)
+            @name = 'vivid'
+            super
+          end
+        end
+
+        # Webcam
+        class UvcVideo < Modules::Drop
+          def initialize(args)
+            @name = 'uvcvideo'
+            @tab = 2
             super
           end
         end
