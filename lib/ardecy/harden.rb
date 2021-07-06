@@ -37,6 +37,7 @@ module Ardecy
       Sysctl::Kernel::FsProtectedRegular.new(args).x
 
       return unless args[:fix]
+
       conf = '/etc/sysctl.d/ardecy_kernel.conf'
       puts if args[:audit]
       puts " ===> Applying at #{conf}..."
@@ -77,6 +78,7 @@ module Ardecy
       Sysctl::Network::TcpFack.new(args).x
 
       return unless args[:fix]
+
       conf = '/etc/sysctl.d/ardecy_network.conf'
       puts if args[:audit]
       puts " ===> Applying at #{conf}..."

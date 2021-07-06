@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "ardecy"
+require 'ardecy'
 
 ardecy = Ardecy::Main.new(ARGV)
 

@@ -12,11 +12,11 @@ end
 namespace :gem do
   desc 'build the gem'
   task :build do
-    Dir['ardecy*.gem'].each {|f| File.unlink(f) }
+    Dir['ardecy*.gem'].each { |f| File.unlink(f) }
     system('gem build ardecy.gemspec')
     system("gem install ardecy-#{Ardecy::VERSION}.gem -P HighSecurity")
   end
 end
 
-task :default => :test
+task default: :test
 

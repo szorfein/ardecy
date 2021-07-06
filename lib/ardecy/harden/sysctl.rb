@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'display'
 
 module Ardecy
@@ -29,15 +31,15 @@ module Ardecy
         end
 
         def fix
-          if File.exist? @file
-            KERNEL << "#{@line} = #{@exp}"
-          end
+          return unless File.exist? @file
+
+          KERNEL << "#{@line} = #{@exp}"
         end
 
         def repair
           return unless @args[:fix]
-          Ardecy::Guard.perm
 
+          Ardecy::Guard.perm
           if @res != 'OK' && @res != 'PROTECTED'
             if File.exist? @file
               File.write(@file, @exp, mode: 'w', preserve: true)
@@ -54,9 +56,9 @@ module Ardecy
 
       class SysNet < SysKern
         def fix
-          if File.exist? @file
-            NETWORK << "#{@line} = #{@exp}"
-          end
+          return unless File.exist? @file
+
+          NETWORK << "#{@line} = #{@exp}"
         end
       end
     end

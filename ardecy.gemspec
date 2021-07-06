@@ -1,16 +1,18 @@
-require File.dirname(__FILE__) + '/lib/ardecy/version'
+# frozen_string_literal: true
+
+require_relative 'lib/ardecy/version'
 
 # https://guides.rubygems.org/specification-reference/
 Gem::Specification.new do |s|
-  s.files = Dir.glob('lib/**/*', File::FNM_DOTMATCH)
   s.name = 'ardecy'
-  s.summary = 'Awesome Ruby Project !'
+  s.summary = 'Ardecy is a security | privacy auditing tools.'
   s.version = Ardecy::VERSION
   s.platform = Gem::Platform::RUBY
-  s.description = <<-EOF
-    ardecy is just an awesome gem !
-  EOF
+  s.description = <<-DESCRIPTION
+    Ardecy is a security, privacy auditing, fixing and hardening tool for GNU/Linux.
+  DESCRIPTION
   s.email = 'szorfein@protonmail.com'
+  s.files = Dir.glob('lib/**/*', File::FNM_DOTMATCH)
   s.homepage = 'https://github.com/szorfein/ardecy'
   s.license = 'MIT'
   s.metadata = {

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'ardecy/version'
 require_relative 'ardecy/options'
 require_relative 'ardecy/harden'
@@ -26,9 +28,9 @@ module Ardecy
     end
 
     def permission
-      if @cli[:fix]
-        Ardecy::Guard.perm
-      end
+      return unless @cli[:fix]
+
+      Ardecy::Guard.perm
     end
 
     def show_intent
