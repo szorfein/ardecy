@@ -11,15 +11,15 @@ module Ardecy
 
     def parse(args)
       OptionParser.new do |opts|
-        opts.on("--audit", "Perform local security scan.") do
+        opts.on('--audit', 'Perform local security scan.') do
           @options[:audit] = true
         end
 
-        opts.on("--fix", "Fix problems.") do
+        opts.on('--fix', 'Fix problems.') do
           @options[:fix] = true
         end
 
-        opts.on("-h", "--help", "Show this message.") do
+        opts.on('-h', '--help', 'Show this message.') do
           puts opts
           exit
         end
@@ -28,7 +28,7 @@ module Ardecy
           args.push('-h') if args.empty?
           opts.parse!(args)
         rescue OptionParser::ParseError => e
-          STDERR.puts e.message, '\n', opts
+          warn e.message, "\n", opts
           exit 1
         end
       end

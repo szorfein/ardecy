@@ -13,32 +13,31 @@ module Ardecy
           kernel_show(@line, @exp) if @args[:audit]
           if File.exist? @file
             if File.readable? @file
-              value = File.read(@file).chomp 
-              @res = value.to_s === @exp ? 'OK' : 'FALSE'
+              value = File.read(@file).chomp
+              @res = value.to_s =~ /#{@exp}/ ? 'OK' : 'FAIL'
             else
-              @res = "PROTECTED"
+              @res = 'PROTECTED'
             end
           else
             @res = 'NO FOUND'
           end
           if @tab
             kernel_res(@res, @tab) if @args[:audit]
-          else
-            kernel_res(@res) if @args[:audit]
+          elsif @args[:audit]
+            kernel_res(@res)
           end
         end
 
         def fix
-          #if @res != 'OK' && @res != 'PROTECTED'
-            if File.exist? @file
-              KERNEL << "#{@line} = #{@exp}"
-            end
-          #end
+          if File.exist? @file
+            KERNEL << "#{@line} = #{@exp}"
+          end
         end
 
         def repair
           return unless @args[:fix]
           Ardecy::Guard.perm
+
           if @res != 'OK' && @res != 'PROTECTED'
             if File.exist? @file
               File.write(@file, @exp, mode: 'w', preserve: true)

@@ -14,8 +14,8 @@ module Ardecy
 
     def scan
       Harden.sysctl({
-        :audit => @cli[:audit],
-        :fix  => @cli[:fix]
+        audit: @cli[:audit],
+        fix: @cli[:fix]
       })
     end
 
@@ -36,11 +36,10 @@ module Ardecy
       fixing = @cli[:fix] ||= false
       puts
       if audit || fixing
-        print " ====> "
-        print "Audit " if audit
-        print "Fixing " if fixing
-        print "System"
-        puts
+        print ' ====> '
+        print 'Audit ' if audit
+        print 'Fixing ' if fixing
+        print "System\n"
       end
       puts
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ardecy
   module Harden
     module Sysctl
@@ -34,9 +36,7 @@ module Ardecy
           def scan
             kernel_show(@line, @exp) if @args[:audit]
             value = File.read(@file).chomp
-            if value =~ /3\s+3\s+3\s+3/
-              @res = 'OK'
-            end
+            @res = 'OK' if value =~ /3\s+3\s+3\s+3/
             kernel_res(@res) if @args[:audit]
           end
         end

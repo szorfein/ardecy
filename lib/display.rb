@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Display
   def title(name)
     l = name.length
     puts " [+] #{name} "
-    puts "-" * l * 2.9
+    puts '-' * l * 2.9
     puts
   end
 
@@ -11,12 +13,10 @@ module Display
   end
 
   def kernel_res(res, ntab = 3)
-    puts "\t" * ntab + "[ #{@res} ]"
+    puts "\t" * ntab + "[ #{res} ]"
   end
 
   def kernel_correct_show(list)
-    list.each { |l|
-      puts "  - #{l}"
-    }
+    list.each { |l| puts "  - #{l}" }
   end
 end
