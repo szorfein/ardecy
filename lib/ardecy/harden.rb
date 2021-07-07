@@ -3,6 +3,7 @@
 require 'display'
 require_relative 'harden/sysctl'
 require_relative 'harden/modules'
+require_relative 'harden/perms'
 
 module Ardecy
   module Harden
@@ -26,6 +27,12 @@ module Ardecy
       else
         puts "[-] Directory /etc/modprobe.d/ no found..."
       end
+    end
+
+    def self.permissions(args)
+      puts
+      title 'Directory Permissions'
+      Perms::Directory.exec(args)
     end
 
     def self.writing(file, list, audit = false)

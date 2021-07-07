@@ -4,7 +4,9 @@
 <br/>
 
 [![Gem Version](https://badge.fury.io/rb/ardecy.svg)](https://badge.fury.io/rb/ardecy)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/szorfein/ardecy/Rubocop/main)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
+![GitHub](https://img.shields.io/github/license/szorfein/ardecy)
 
 </div>
 

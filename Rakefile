@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rake/testtask'
 require File.dirname(__FILE__) + '/lib/ardecy/version'
 

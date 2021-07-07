@@ -24,6 +24,11 @@ module Ardecy
         audit: @cli[:audit],
         fix: @cli[:fix]
       })
+
+      Harden.permissions({
+        audit: @cli[:audit],
+        fix: @cli[:fix]
+      })
     end
 
     def bye

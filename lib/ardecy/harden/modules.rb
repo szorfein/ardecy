@@ -42,6 +42,7 @@ module Ardecy
 
         def fix
           return if @res =~ /OK/
+
           BLACKLIST << "install #{@name} /bin/false"
         end
       end

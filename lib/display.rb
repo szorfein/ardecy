@@ -12,6 +12,12 @@ module Display
     print "  - #{line} (exp: #{exp})"
   end
 
+  def perm_show(line, exp)
+    print "  - #{line} (exp: < "
+    printf "%04o", exp
+    print ")"
+  end
+
   def result(res, ntab = 3)
     puts "\t" * ntab + "[ #{res} ]"
   end
