@@ -15,20 +15,10 @@ module Ardecy
     end
 
     def scan
-      Harden.sysctl({
-        audit: @cli[:audit],
-        fix: @cli[:fix]
-      })
-
-      Harden.modules({
-        audit: @cli[:audit],
-        fix: @cli[:fix]
-      })
-
-      Harden.permissions({
-        audit: @cli[:audit],
-        fix: @cli[:fix]
-      })
+      Harden.sysctl(@cli)
+      Harden.modules(@cli)
+      Harden.permissions(@cli)
+      Harden.mountpoint(@cli)
     end
 
     def bye

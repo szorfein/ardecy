@@ -52,7 +52,6 @@ module Ardecy
         class Home < Perms::DirCheck
           def initialize(args)
             super
-            @name = '/home/daggoth'
             @exp = 0700
           end
 

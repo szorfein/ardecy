@@ -4,6 +4,7 @@ require 'display'
 require_relative 'harden/sysctl'
 require_relative 'harden/modules'
 require_relative 'harden/perms'
+require_relative 'harden/mountpoint'
 
 module Ardecy
   module Harden
@@ -33,6 +34,12 @@ module Ardecy
       puts
       title 'Directory Permissions'
       Perms::Directory.exec(args)
+    end
+
+    def self.mountpoint(args)
+      puts
+      title 'Mountpoint'
+      Mountpoint.exec(args)
     end
 
     def self.writing(file, list, audit = false)

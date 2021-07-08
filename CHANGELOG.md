@@ -1,3 +1,6 @@
+* Add sysctl > fs.suid_dumpable 0
+* Audit/Fix mountpoint (e.g: proc mounted with hidepids)
+* Audit/Fix permission on sensible directory
 * Audit/Fix dangerous kernel modules
 
 ## 0.0.2, release 07/06/21
