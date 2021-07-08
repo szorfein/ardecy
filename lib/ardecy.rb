@@ -19,6 +19,7 @@ module Ardecy
       Harden.modules(@cli)
       Harden.permissions(@cli)
       Harden.mountpoint(@cli)
+      Harden.cmdline(@cli)
     end
 
     def bye

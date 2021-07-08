@@ -23,26 +23,58 @@ module Ardecy
 
         def x
           scan
+          add_group
+          build_args
           fix
           systemd_case
+        end
+
+        def add_group
+          return unless @args[:fix] && @group
+
+          has_group = group_search
+          unless has_group
+            puts " => Group #{@group} added." if system("/usr/sbin/groupadd #{@group}")
+          end
+        end
+
+        def group_search
+          if File.readable? '/etc/group'
+            etc_group = File.readlines('/etc/group')
+            etc_group.each { |l| return true if l =~ /#{@group}/ }
+          else
+            puts " [-] /etc/group is not readable"
+          end
+          false
         end
 
         def scan
           return unless mount_match('/proc/mounts')
 
-          print " - Checking #{@name} contain " + @ensure.join(',') if @args[:audit]
-          v = @val.split ' '
-          @ensure.each do |e|
-            v[3] += ",#{e}" unless v[3] =~ /#{e}/
+          print "  - Checking #{@name} contain " + @ensure.join(',') if @args[:audit]
+          res_a = []
+          @ensure.each do |v|
+            o = v.split('=')
+            res_a << true if @val =~ /#{o[0]}=[a-z0-9]+/
           end
+          @res = 'OK' if res_a.length == @ensure.length
 
-          @new = v.join(' ')
-          @res = "OK" if @val == @new
           @tab ? result(@res, @tab) : result(@res) if @args[:audit]
         end
 
-        def fix
+        def build_args
           return unless @args[:fix] && @res =~ /OK/
+
+          v = @val.split ' '
+          @ensure.each do |e|
+            o = e.split('=')
+            v[3] += ",#{e}" unless v[3] =~ /#{o[0]}=[a-z0-9]+/
+          end
+          @new = v.join(' ')
+        end
+
+        def fix
+          return unless @args[:fix] && !@res =~ /OK/
 
           if mount_match('/etc/fstab')
             edit_fstab
@@ -80,6 +112,7 @@ module Ardecy
 
         def systemd_case
         end
+
       end
 
       class ProcHidepid < Mountpoint::MountInc
@@ -87,8 +120,13 @@ module Ardecy
           super
           @name = 'proc'
           @ensure = [ 'hidepid=2', 'gid=proc' ]
+          @group = 'proc'
         end
 
+        # man logind.conf check under:
+        # > /etc/systemd/logind.conf.d/*.conf
+        # > /run/systemd/logind.conf.d/*.conf
+        # > /usr/lib/systemd/logind.conf.d/*.conf
         def systemd_case
           return unless @args[:fix]
 

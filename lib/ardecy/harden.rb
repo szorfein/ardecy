@@ -5,6 +5,7 @@ require_relative 'harden/sysctl'
 require_relative 'harden/modules'
 require_relative 'harden/perms'
 require_relative 'harden/mountpoint'
+require_relative 'harden/cmdline'
 
 module Ardecy
   module Harden
@@ -40,6 +41,12 @@ module Ardecy
       puts
       title 'Mountpoint'
       Mountpoint.exec(args)
+    end
+
+    def self.cmdline(args)
+      puts
+      title 'Kernel Cmdline'
+      CmdLine.exec(args)
     end
 
     def self.writing(file, list, audit = false)
