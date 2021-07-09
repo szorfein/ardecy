@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require 'display'
-require 'tempfile'
-require 'fileutils'
+require 'nito'
 
 module Ardecy
   module Harden
@@ -14,6 +13,7 @@ module Ardecy
 
       class MountInc
         include Display
+        include NiTo
 
         def initialize(args)
           @res = 'FAIL'
@@ -98,21 +98,11 @@ module Ardecy
         end
 
         def edit_fstab
-          tmp = Tempfile.new('fstab')
-          File.open('/etc/fstab').each do |l|
-            if l.match(/^#{@name}/)
-              File.write(tmp, "#{@new}\n", mode: 'a')
-            else
-              File.write(tmp, l, mode: 'a')
-            end
-          end
-          FileUtils.mv tmp, '/etc/fstab'
-          File.chmod(0644, '/etc/fstab')
+          sed(/^#{@name}/, @new, '/etc/fstab')
         end
 
         def systemd_case
         end
-
       end
 
       class ProcHidepid < Mountpoint::MountInc
