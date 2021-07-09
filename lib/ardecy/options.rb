@@ -21,6 +21,18 @@ module Ardecy
           @options[:fix] = true
         end
 
+        opts.on('--path-bootctl PATH', String, 'Path for bootctl, esp should be mounted') do |f|
+          raise "No file #{f}" unless File.exists? f
+
+          @options[:bootctl] = f
+        end
+
+        opts.on('--path-syslinux PATH', String, 'Path for syslinux if not /boot/syslinux/syslinux.cfg') do |f|
+          raise "No file #{f}" unless File.exists? f
+
+          @options[:syslinux] = f
+        end
+
         opts.on('-h', '--help', 'Show this message.') do
           puts opts
           exit

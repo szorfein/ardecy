@@ -38,16 +38,40 @@ module Ardecy
         end
 
         def fix
-          return unless @args[:fix] && !@res =~ /OK/
+          return unless @args[:fix]
+          return if @res =~ /OK/
 
           if File.exist? '/etc/default/grub'
             apply_grub '/etc/default/grub'
+          elsif @args[:syslinux]
+            apply_syslinux @args[:syslinux]
           elsif File.exist? '/boot/syslinux/syslinux.cfg'
             apply_syslinux '/boot/syslinux/syslinux.cfg'
+          elsif @args[:bootctl]
+            apply_bootctl @args[:bootctl]
           else
             puts
             puts "[-] No config file supported yet to applying #{@name}."
           end
+        end
+
+        # conf path can be something like:
+        # /efi/loader/entries/gentoo.conf
+        def apply_bootctl(conf)
+          line = get_bootctl_line(conf)
+          args = []
+          line.split(' ').each { |a| args << a if a =~ /[a-z0-9=]+/ }
+          args << @name
+          args = args.uniq()
+          args.delete('options')
+          @final_line = 'options ' + args.join(' ')
+          puts ' > line > ' + @final_line
+          sed(/^options/, "#{@final_line}", conf)
+        end
+
+        def get_bootctl_line(conf)
+          File.readlines(conf).each { |l| return l if l =~ /^options/ }
+          'options'
         end
 
         def apply_syslinux(conf)

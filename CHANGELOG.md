@@ -1,3 +1,4 @@
+* Audit/Fix kernel cmdlines for GRUB2, Bootctl or Syslinux, look --help
 * Add sysctl > fs.suid_dumpable 0
 * Audit/Fix mountpoint (e.g: proc mounted with hidepids)
 * Audit/Fix permission on sensible directory
