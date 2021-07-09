@@ -42,10 +42,23 @@ module Ardecy
 
           if File.exist? '/etc/default/grub'
             apply_grub '/etc/default/grub'
+          elsif File.exist? '/boot/syslinux/syslinux.cfg'
+            apply_syslinux '/boot/syslinux/syslinux.cfg'
           else
             puts
             puts "[-] No config file supported yet to applying #{@name}."
           end
+        end
+
+        def apply_syslinux(conf)
+          line = get_syslinux_line(conf)
+          args = []
+          line.split(' ').each { |a| args << a if a =~ /[a-z0-9=]+/ }
+          args << @name
+          args = args.uniq()
+          @final_line = 'APPEND ' + args.join(' ')
+          puts ' > line > ' + @final_line
+          sed(/\s+APPEND/, "    #{@final_line}", conf) # with 4 spaces
         end
 
         # apply_grub
@@ -60,18 +73,25 @@ module Ardecy
           args_split = line_split[1].split(' ')
           args_split.each { |a| args << a.tr('"', '') if a =~ /[a-z0-9=]+/ }
           args << @name
+          args = args.uniq()
 
           @final_line = "GRUB_CMDLINE_LINUX_DEFAULT=\"" + args.join(' ') + "\""
-          puts " > line > " + @final_line
+          puts ' > line > ' + @final_line
+          write_to_grub(conf)
         end
 
-        def write_to_grub
-          sed(/^GRUB_CMDLINE_LINUX_DEFAULT/, @final_line, '/etc/default/grub')
+        def write_to_grub(conf)
+          sed(/^GRUB_CMDLINE_LINUX_DEFAULT/, @final_line, conf)
         end
 
         def get_grub_line(conf)
           File.readlines(conf).each { |l| return l if l =~ /^GRUB_CMDLINE_LINUX_DEFAULT/ }
           "GRUB_CMDLINE_LINUX_DEFAULT=\"\""
+        end
+
+        def get_syslinux_line(conf)
+          File.readlines(conf).each { |l| return l if l =~ /\s+APPEND/ }
+          'APPEND'
         end
       end
 
