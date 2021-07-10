@@ -12,6 +12,13 @@ module Ardecy
         InitOnAlloc.new(args).x
         InitOnFree.new(args).x
         PageAllocShuffle.new(args).x
+        PtiOn.new(args).x
+        VSyscall.new(args).x
+        DebugFS.new(args).x
+        ModuleSig.new(args).x
+        LockdownConfident.new(args).x
+        Quiet.new(args).x
+        LogLevel.new(args).x
       end
 
       class LineInc
@@ -65,7 +72,7 @@ module Ardecy
           args = args.uniq()
           args.delete('options')
           @final_line = 'options ' + args.join(' ')
-          puts ' > line > ' + @final_line
+          print " ===> Adding #{@name} \n\n"
           sed(/^options/, "#{@final_line}", conf)
         end
 
@@ -81,7 +88,7 @@ module Ardecy
           args << @name
           args = args.uniq()
           @final_line = 'APPEND ' + args.join(' ')
-          puts ' > line > ' + @final_line
+          print " ===> Adding #{@name} \n\n"
           sed(/\s+APPEND/, "    #{@final_line}", conf) # with 4 spaces
         end
 
@@ -100,7 +107,7 @@ module Ardecy
           args = args.uniq()
 
           @final_line = "GRUB_CMDLINE_LINUX_DEFAULT=\"" + args.join(' ') + "\""
-          puts ' > line > ' + @final_line
+          print " ===> Adding #{@name} \n\n"
           write_to_grub(conf)
         end
 
@@ -152,6 +159,62 @@ module Ardecy
           super
           @name = 'page_alloc.shuffle=1'
           @tab = 3
+        end
+      end
+
+      class PtiOn < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'pti=on'
+          @tab = 5
+        end
+      end
+
+      class VSyscall < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'vsyscall=none'
+          @tab = 4
+        end
+      end
+
+      class DebugFS < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'debugfs=off'
+          @tab = 5
+        end
+      end
+
+      class ModuleSig < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'module.sig_enforce=1'
+          @tab = 3
+        end
+      end
+
+      class LockdownConfident < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'lockdown=confidentiality'
+          @tab = 3
+        end
+      end
+
+      class Quiet < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'quiet'
+          @tab = 5
+        end
+      end
+
+      class LogLevel < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'loglevel=0'
+          @tab = 5
         end
       end
     end

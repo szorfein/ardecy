@@ -50,7 +50,7 @@ module Ardecy
     end
 
     def self.writing(file, list, audit = false)
-      return unless list.length >= 2
+      return unless list.length >= 1
 
       puts if audit
       puts " ===> Applying at #{file}..."

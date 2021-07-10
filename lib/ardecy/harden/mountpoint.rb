@@ -34,7 +34,13 @@ module Ardecy
 
           has_group = group_search
           unless has_group
-            puts " => Group #{@group} added." if system("/usr/sbin/groupadd #{@group}")
+            if File.exists? '/usr/sbin/groupadd'
+              puts " => Group #{@group} added." if system("/usr/sbin/groupadd #{@group}")
+            elsif File.exists? '/usr/bin/groupadd'
+              puts " => Group #{@group} added." if system("/usr/bin/groupadd #{@group}")
+            else
+              puts '[-] Can\'t find command groupadd'
+            end
           end
         end
 
@@ -63,7 +69,8 @@ module Ardecy
         end
 
         def build_args
-          return unless @args[:fix] && @res =~ /OK/
+          return unless @args[:fix]
+          return if @res =~ /OK/
 
           v = @val.split ' '
           @ensure.each do |e|
@@ -74,7 +81,8 @@ module Ardecy
         end
 
         def fix
-          return unless @args[:fix] && !@res =~ /OK/
+          return unless @args[:fix]
+          return if @res =~ /OK/
 
           if mount_match('/etc/fstab')
             edit_fstab
