@@ -6,6 +6,7 @@ require_relative 'harden/modules'
 require_relative 'harden/perms'
 require_relative 'harden/mountpoint'
 require_relative 'harden/cmdline'
+require_relative 'harden/coredump'
 
 module Ardecy
   module Harden
@@ -21,6 +22,9 @@ module Ardecy
       puts
       title 'Kernel Modules'
       Modules::Blacklist.exec(args)
+    end
+
+    def self.write_ardecy_blacklist(args)
       return unless args[:fix]
 
       if Dir.exist? '/etc/modprobe.d/'
@@ -49,6 +53,16 @@ module Ardecy
       CmdLine.exec(args)
     end
 
+    def self.coredump(args)
+      puts
+      title 'Coredump'
+      CoreDump.exec(args)
+
+      # Added as last step
+      write_ardecy_blacklist(args)
+      write_ardecy_kernel(args)
+    end
+
     def self.writing(file, list, audit = false)
       return unless list.length >= 1
 
@@ -65,6 +79,9 @@ module Ardecy
     def self.sysctl_kernel(args)
       title 'Kernel Hardening'
       Sysctl::Kernel.exec(args)
+    end
+
+    def self.write_ardecy_kernel(args)
       return unless args[:fix]
 
       if Dir.exist? '/etc/sysctl.d/'

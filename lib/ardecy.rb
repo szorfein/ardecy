@@ -2,6 +2,7 @@
 
 require_relative 'ardecy/version'
 require_relative 'ardecy/options'
+require_relative 'ardecy/file_edit'
 require_relative 'ardecy/harden'
 require_relative 'ardecy/privacy'
 require_relative 'ardecy/guard'
@@ -20,6 +21,7 @@ module Ardecy
       Harden.permissions(@cli)
       Harden.mountpoint(@cli)
       Harden.cmdline(@cli)
+      Harden.coredump(@cli)
     end
 
     def bye

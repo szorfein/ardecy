@@ -80,6 +80,7 @@ module Ardecy
 
           Blacklist::Vivid.new(args).x
           Blacklist::UvcVideo.new(args).x
+          puts " ===> Corrected" if args[:fix]
         end
 
         class Dccp < Modules::Drop

@@ -24,7 +24,7 @@ module Ardecy
           Kernel::FsProtectedHardlinks.new(args).x
           Kernel::FsProtectedFifos.new(args).x
           Kernel::FsProtectedRegular.new(args).x
-          Kernel::FsSuidDumpable.new(args).x
+          puts " ===> Corrected" if args[:fix]
         end
 
         class KPointer < Sysctl::SysKern
@@ -203,15 +203,6 @@ module Ardecy
             @line = 'fs.protected_regular'
             super
             @exp = '2'
-          end
-        end
-
-        class FsSuidDumpable < Sysctl::SysKern
-          def initialize(args)
-            @file = '/proc/sys/fs/suid_dumpable'
-            @line = 'fs.suid_dumpable'
-            super
-            @tab = 4
           end
         end
       end

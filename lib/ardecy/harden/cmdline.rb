@@ -19,6 +19,7 @@ module Ardecy
         LockdownConfident.new(args).x
         Quiet.new(args).x
         LogLevel.new(args).x
+        Rdrand.new(args).x
       end
 
       class LineInc
@@ -57,7 +58,6 @@ module Ardecy
           elsif @args[:bootctl]
             apply_bootctl @args[:bootctl]
           else
-            puts
             puts "[-] No config file supported yet to applying #{@name}."
           end
         end
@@ -215,6 +215,14 @@ module Ardecy
           super
           @name = 'loglevel=0'
           @tab = 5
+        end
+      end
+
+      class Rdrand < CmdLine::LineInc
+        def initialize(args)
+          super
+          @name = 'random.trust_cpu=off'
+          @tab = 3
         end
       end
     end
