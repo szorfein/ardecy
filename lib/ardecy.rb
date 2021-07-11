@@ -22,6 +22,8 @@ module Ardecy
       Harden.mountpoint(@cli)
       Harden.cmdline(@cli)
       Harden.coredump(@cli)
+      Harden.umask(@cli)
+      Harden.write_sysctl(@cli) # for fix, always at the end
     end
 
     def bye

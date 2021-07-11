@@ -7,6 +7,7 @@ require_relative 'harden/perms'
 require_relative 'harden/mountpoint'
 require_relative 'harden/cmdline'
 require_relative 'harden/coredump'
+require_relative 'harden/umask'
 
 module Ardecy
   module Harden
@@ -57,8 +58,15 @@ module Ardecy
       puts
       title 'Coredump'
       CoreDump.exec(args)
+    end
 
-      # Added as last step
+    def self.umask(args)
+      puts
+      title 'Umask'
+      Umask.exec(args)
+    end
+
+    def self.write_sysctl(args)
       puts
       write_ardecy_blacklist(args)
       write_ardecy_kernel(args)
