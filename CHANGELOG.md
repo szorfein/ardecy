@@ -1,3 +1,4 @@
+* Audit/Fix umask
 * Audit/Fix Coredump (contain the recorded memory of programs)
 
 ## 0.0.3, release 07/11/21
