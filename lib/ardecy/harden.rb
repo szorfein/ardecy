@@ -59,6 +59,7 @@ module Ardecy
       CoreDump.exec(args)
 
       # Added as last step
+      puts
       write_ardecy_blacklist(args)
       write_ardecy_kernel(args)
     end

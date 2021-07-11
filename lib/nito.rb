@@ -27,4 +27,10 @@ module NiTo
     FileUtils.mv src, dest
     File.chmod perm, dest
   end
+
+  # mkdir
+  def mkdir(dir, perm = 0644)
+    FileUtils.mkdir_p dir
+    File.chmod perm, dir
+  end
 end

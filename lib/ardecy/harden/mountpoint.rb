@@ -129,7 +129,7 @@ module Ardecy
           return unless @args[:fix]
 
           if File.exist? '/etc/systemd/logind.conf'
-            create_content '/etc/systemd/logind.conf.d'
+            create_content '/etc/systemd/system/systemd-logind.service.d/'
           end
         end
 
@@ -139,7 +139,7 @@ module Ardecy
             'SupplementaryGroups=proc',
             ''
           ]
-          Dir.mkdir in_dir, 0700 unless Dir.exists? in_dir
+          mkdir in_dir, 0700 unless Dir.exists? in_dir
           File.write("#{in_dir}/hidepid.conf", content.join("\n"), mode: 'w')
           puts " > Creating file #{in_dir}/hidepid.conf"
         end

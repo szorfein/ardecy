@@ -8,6 +8,7 @@ module Ardecy
       def self.exec(args)
         CoreDump::KernelCorePattern.new(args).x
         CoreDump::SecLimit.new(args).x
+        CoreDump::Systemd.new(args).x
         CoreDump::FsSuidDumpable.new(args).x
         puts " ===> Corrected" if args[:fix]
       end
@@ -15,10 +16,22 @@ module Ardecy
       # To disable CoreDump via sysctl
       class KernelCorePattern < Sysctl::SysKern
         def initialize(args)
-          @file = '/proc/sys/kernel/core_pattern=|/bin/false'
-          @line = 'kernel.core_pattern=|/bin/false'
+          @file = '/proc/sys/kernel/core_pattern'
+          @line = 'kernel.core_pattern'
           super
           @tab = 2
+          @exp = '|/bin/false'
+        end
+      end
+
+      class Systemd < FileNew
+        def initialize(args)
+          super
+          @file = '/etc/systemd/coredump.conf.d/disable.conf'
+          @need_dir = '/etc/systemd/coredump.conf.d'
+          @only_if = '/etc/systemd/coredump.conf'
+          @content = [ '[Coredump]', 'Storage=none' ]
+          @tab = 1
         end
       end
 
